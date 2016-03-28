@@ -1,24 +1,14 @@
-count = 0
-with open('reviews.txt') as fin:
-    for line in fin:
-        if "flavor\":-1" in line:
-            print line
-            count += 1
-            continue
-        if "environment\":-1" in line:
-            print line
-            count += 1
-            continue
-        if "service\":-1" in line:
-            print line
-            count += 1
-            continue
-        if "content\":\"\"" in line:
-            print line
-            count += 1
-            continue
-print count
+fin = open("tmp.txt", 'r')
 
-# 4422474 records total
-# 346253 records without 3 rankings
-# 612543 records without 3 rankings & contents
+for i in range(0, 100):
+    out = "o_"+str(i)+".txt"
+    fout = open(out, 'w')
+    count = 0
+    while 1:
+        if count >= 38100:
+            break
+        line = fin.readline()
+        if not line:
+            break
+        count += 1
+        fout.write(line)
