@@ -1,3 +1,12 @@
+# Filter Record
+
+# Remove reviews without 3 rankings, and remove reviews without contents
+# 4422474 records total
+# 612543 records without 3 rankings & contents
+
+# input: review.txt
+# output: tmp.txt
+
 with open('reviews.txt') as fin:
     fout = open("tmp.txt", 'w')
     for line in fin:
@@ -11,6 +20,4 @@ with open('reviews.txt') as fin:
             continue
         fout.write(line)
 
-# 4422474 records total
-# 346253 records without 3 rankings
-# 612543 records without 3 rankings & contents
+

@@ -1,3 +1,10 @@
+# Split file
+
+# Split review file into 100 subfiles
+
+# input: tmp.txt
+# output: o_[idx].txt      100 files total
+
 fin = open("tmp.txt", 'r')
 
 for i in range(0, 100):
