@@ -4,9 +4,11 @@
 import json
 import codecs
 import urllib2
+from langdetect import detect
 
 def call_ltp(line):
-	# print line
+	print "---------"
+	print line
 	line =  ''.join(line.encode("utf-8").splitlines())
 	url_get_base = "http://api.ltp-cloud.com/analysis/?"
 	api_key = 'F6k2x8z9LYEXRx5SHp9WHNhdLpAG9AxuLXknfTld'
@@ -17,12 +19,15 @@ def call_ltp(line):
 	content = result.read().strip()
 	return content
 
+def combine_to_one_para(lines):
+	print lines
+	return ''.join(lines.split("\n"))
 
 fname = "input.txt"
+# fname = "o_0.txt"
 # out = "output.txt"
 
 fin = open(fname, 'r')
-# with codecs.open(out, 'w', encoding="utf-8") as fout:
 
 while 1:
 	line = fin.readline()
@@ -33,12 +38,12 @@ while 1:
 	# print tmp
 	data = json.loads(tmp)
 	c = data['content']
+	t = combine_to_one_para(c)
+	print t
+	# print call_ltp(t)
 	# print c
-	# print "===="
-	print call_ltp(c)
-    # print c
-    # print len(c.split('\n'))
-    # print call_ltp('里面有一些进口食品还是不错的，但个人感觉商品种类比较少，而且管理不是很灵活，退货比较麻烦。价格方面是比较适中的。')
-    # lines = c.split('\n')
-    # for i in range(0, len(lines)):
-    # 	print call_ltp(lines[i])
+	# print "---"
+	# print c.strip()
+	# if detect(c) == "zh-cn":
+	# 	print c
+		# tmp = call_ltp(c)

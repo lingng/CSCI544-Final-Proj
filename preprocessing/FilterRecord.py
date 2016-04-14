@@ -26,11 +26,12 @@ def construct_url():
 					urls[url] = 1
 	return urls
 
-
+def generate_filtered_tmp(urldic):
+	
 
 def main():
     urls_dic = construct_url()
-
+    generate_filtered_tmp(urls_dic)
 
 if __name__ == "__main__":
     main()
