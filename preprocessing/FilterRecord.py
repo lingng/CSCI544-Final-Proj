@@ -49,14 +49,36 @@ def get_records_num(urls):
 			total_records_num += 1
 	return total_records_num
 
-def split_files(file_num):
+def split_files(file_num, urls):
 	num_per_file = 3400000 / file_num
-
+	fin = open("reviews.txt", 'r')
+	for i in range(0, file_num):
+		out = "o_"+str(i)+".txt"
+		fout = open(out, 'w')
+		count = 0
+		while 1:
+			if count >= num_per_file:
+				break
+			line = fin.readline()
+			if not line:
+				break
+			if "flavor\":-1" in line:
+				continue
+			if "environment\":-1" in line:
+				continue
+			if "service\":-1" in line:
+				continue
+			if "content\":\"\"" in line:
+				continue
+			url = line.split(" ^ {")[0]
+			if urls.has_key(url):
+				count += 1
+				fout.write(line)
 
 def main():
     urls_dic = construct_url()
     # print get_records_num(urls_dic)    #3363141
-    split_files(100)
+    split_files(100, urls_dic)
 
 if __name__ == "__main__":
     main()
