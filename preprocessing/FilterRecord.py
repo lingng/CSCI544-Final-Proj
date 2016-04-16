@@ -6,6 +6,8 @@ import codecs
 
 """
 	Return a dictionary of urls that are restaurants
+
+	return: dictionary of urls. Key: url; Value: Number of times the url appears
 """
 def construct_url():
 	fin = open("businesses.txt", 'r')
@@ -29,6 +31,12 @@ def construct_url():
 					urls[url] = 1
 	return urls
 
+"""
+	Get the records number
+
+	@urls: The dictionary of urls for restaurants.
+	return: total records number that meets the requirement of our project
+"""
 def get_records_num(urls):
 	total_records_num = 0
 	fin = open("reviews.txt", 'r')
@@ -49,6 +57,13 @@ def get_records_num(urls):
 			total_records_num += 1
 	return total_records_num
 
+"""
+	Split files into given number of subfiles.
+	Output file name format: o_[index].txt
+
+	@file_num: Given number for how many subfiles we need
+	@urls: Dictionary of restaurants urls.
+"""
 def split_files(file_num, urls):
 	num_per_file = 3400000 / file_num
 	fin = open("reviews.txt", 'r')
@@ -75,10 +90,14 @@ def split_files(file_num, urls):
 				count += 1
 				fout.write(line)
 
+"""
+	Main Function
+"""
 def main():
     urls_dic = construct_url()
-    # print get_records_num(urls_dic)    #3363141
+    # print get_records_num(urls_dic)    #3363141 number of records that meets the requirements
     split_files(100, urls_dic)
+
 
 if __name__ == "__main__":
     main()
