@@ -1,12 +1,14 @@
 ## Preprocessing Readme
----
+
+### Overview
+
 Preprocess the reviews for future classification. 
 
 Only keep reviews for restaurants, and with environment, service, and flavor scores, and the reviews should be in Simplified Chinese. Split the large file into smaller files for processing.
 
 Add segmentation and pinyin to the filtered results, and the output the result in a json format.
 
----
+
 ### Process Procedure
 
 **FilterRecord.py**
@@ -29,9 +31,8 @@ Add segmentation and pinyin to the filtered results, and the output the result i
 			'segmentation': segmentation of the review content,
 			'pinyin': pinyin for the segmentation
 		}
-
-
-#### Used Libs
+		
+### Used Libs
 * [Langdetect (v 1.0.6)](https://pypi.python.org/pypi/langdetect)
 * [pinyin (v 0.3)](https://pypi.python.org/pypi/pinyin)
 * [jieba (v 0.38)](https://pypi.python.org/pypi/jieba)
@@ -39,3 +40,6 @@ Add segmentation and pinyin to the filtered results, and the output the result i
 * [urllib2](https://docs.python.org/2/library/urllib2.html#module-urllib2)
 * [codecs](https://docs.python.org/2/library/codecs.html)
 * [json](https://docs.python.org/2/library/json.html)
+
+### Other Resources
+* Commonly mistyped word
