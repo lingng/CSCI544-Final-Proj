@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+import requests
 import json
 import sys
 import codecs
@@ -8,6 +9,7 @@ import codecs
 import urllib2
 from langdetect import detect
 import pinyin
+
 
 """
 	Eliminate newlines in the comment to use ltp cloud in the future.
@@ -76,11 +78,20 @@ def call_ltp(line):
 	text = line
 	format = 'plain'
 	pattern = 'ws'
-	result = urllib2.urlopen("%sapi_key=%s&text=%s&format=%s&pattern=%s" % (url_get_base,api_key,text,format,pattern))
-	content = result.read().strip()
+
+	obj = {'api_key': api_key, 'text': text, 'format': format, 'pattern': pattern}
+	r = requests.get(url_get_base, params=obj)
+	content = r.content
+	# url = r.url
+	# result = urllib2.urlopen("%sapi_key=%s&text=%s&format=%s&pattern=%s" % (url_get_base,api_key,text,format,pattern))
+	# result = urllib2.urlopen("%s%s" % (url_get_base,parameter))
+	# result = urllib2.urlopen(url)
+	# content = result.read().strip()
 	return content
+	# return " "
 
 def combine_segmentation_result(contents):
+	print contents
 	rst = '/'.join(contents.split("\n"))
 	rst = '/'.join(rst.split(" "))
 	return rst
@@ -109,6 +120,7 @@ def preprocess(fname):
 				rst = ""
 				for item in content.split("\n"):
 					rst += call_ltp(item)
+					rst += "\n"
 				
 				segmentation = combine_segmentation_result(rst)
 				# Return type of the function is str, not unicode. Thus need to change into unicode.
@@ -136,12 +148,12 @@ def preprocess(fname):
 	Main Function
 """
 def main(start_idx, end_idx):
-	global error_dic
+	# global error_dic
 	# error_dic = construct_error_dic()
-	# preprocess("input.txt")
-	for i in range(start_idx, end_idx):
-		fname = "o_"+str(i)+".txt"
-		preprocess(fname)
+	preprocess("input.txt")
+	# for i in range(start_idx, end_idx):
+	# 	fname = "o_"+str(i)+".txt"
+	# 	preprocess(fname)
 
 if __name__ == "__main__":
 	print "End index not included!"
