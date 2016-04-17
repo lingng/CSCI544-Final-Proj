@@ -6,6 +6,6 @@
 <pydev_property name="org.python.pydev.PYTHON_PROJECT_VERSION">python 2.7</pydev_property>
 <pydev_property name="org.python.pydev.PYTHON_PROJECT_INTERPRETER">Default</pydev_property>
 <pydev_pathproperty name="org.python.pydev.PROJECT_EXTERNAL_SOURCE_PATH">
-<path>/Users/Frankle/Documents/544 homework/libsvm-3.21/python</path>
+<path>/Users/FrancoChen/git/CSCI544-Final-Proj/my_svm/libsvm-3.21/python</path>
 </pydev_pathproperty>
 </pydev_project>

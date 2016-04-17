@@ -75,20 +75,30 @@ def getNgramFVWithSetting(data, setting, N):
 def decodeUTF8(key_tuple):
     return ''.join(x.encode('utf-8') for x in key_tuple)
 
-def getXYArray(setting):    
+def getXYArray(setting, option):    
     #stopWords = set(readStopWordList('Chinese_stopwords.txt') )
     labels = []
     feature_vectors = []
     feature = {}
     dict = parseJson(sys.argv[1])
     for key in dict:
-        label = str(dict[key]['service']+1)+str(dict[key]['environment']+1)+str(dict[key]['flavor']+1)
+        label = ''
+        if option == 1:
+            label = str(dict[key]['service']+1)
+        if option == 2:
+            label = str(dict[key]['environment']+1)
+        if option == 3:
+            label = str(dict[key]['flavor']+1)
+        if option == 4:    
+            label = str(dict[key]['service']+1)+str(dict[key]['environment']+1)+str(dict[key]['flavor']+1)
         my_feature = {}
         for i in xrange(1, 4):
             fV = getNgramFVWithSetting(dict[key], setting, i)
             for f in fV:
                 #if fV[f] == 1:
                 #    continue
+                if len(f)<1:
+                    continue
                 if f not in feature:    #new feature, assign this feature a number and record its numerical value
                     value = len(feature)
                     feature[f] = value
@@ -123,11 +133,13 @@ def readDataFromFile(path):
     return labels, feature_vectors
   
 if __name__ == "__main__":
-    labels, feature_vectors, mapping = getXYArray(int(sys.argv[2])) 
-    with open('svm_training_input_' + sys.argv[2] + '.txt', 'w') as file:
+    option = 3
+    option_tag = ['service_', 'environment_', 'flavor_', '']
+    labels, feature_vectors, mapping = getXYArray(int(sys.argv[2]), option) 
+    with open('svm_training_input_'+ option_tag[option-1] + sys.argv[2] + '.txt', 'w') as file:
         for index, element in enumerate(labels):
             file.write(str(element) + ' ' + joinDictionaryString(feature_vectors[index]) + '\n')   
-    with open('feature_mapping_' + sys.argv[2] + '.txt', 'w') as file:
+    with open('feature_mapping_' + option_tag[option-1] + sys.argv[2] + '.txt', 'w') as file:
         for key in mapping:
             file.write(decodeUTF8(key)+':'+ str(mapping[key])+'\n');   
     
