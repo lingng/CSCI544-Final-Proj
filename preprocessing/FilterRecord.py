@@ -3,6 +3,7 @@
 
 import json
 import codecs
+from langdetect import detect
 
 """
 	Return a dictionary of urls that are restaurants
@@ -53,8 +54,18 @@ def get_records_num(urls):
 		if "content\":\"\"" in line:
 			continue
 		url = line.split(" ^ {")[0]
+		tmp = line.split(" ^ {")[1] # Get JSON
+		tmp = "{"+tmp
+		data = json.loads(tmp)
+		content = data['content']
+		content = content.strip()
 		if urls.has_key(url):
-			total_records_num += 1
+			try:
+				if detect(content) == "zh-cn":
+					total_records_num += 1
+					print total_records_num
+			except:
+				continue			
 	return total_records_num
 
 """
@@ -69,6 +80,7 @@ def split_files(file_num, urls):
 	fin = open("reviews.txt", 'r')
 	for i in range(0, file_num):
 		out = "o_"+str(i)+".txt"
+		print out
 		fout = open(out, 'w')
 		count = 0
 		while 1:
@@ -86,17 +98,26 @@ def split_files(file_num, urls):
 			if "content\":\"\"" in line:
 				continue
 			url = line.split(" ^ {")[0]
+			tmp = line.split(" ^ {")[1] # Get JSON
+			tmp = "{"+tmp
+			data = json.loads(tmp)
+			content = data['content']
+			content = content.strip()
 			if urls.has_key(url):
-				count += 1
-				fout.write(line)
+				try:
+					if detect(content) == "zh-cn":
+						count += 1
+						fout.write(line)
+				except:
+					continue
 
 """
 	Main Function
 """
 def main():
     urls_dic = construct_url()
-    # print get_records_num(urls_dic)    #3363141 number of records that meets the requirements
-    split_files(100, urls_dic)
+    print get_records_num(urls_dic)    #3363141 number of records that meets the requirements
+    # split_files(100, urls_dic)
 
 
 if __name__ == "__main__":

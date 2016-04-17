@@ -4,9 +4,10 @@
 import json
 import sys
 import codecs
-import jieba
+# import jieba
 import urllib2
 from langdetect import detect
+import pinyin
 
 """
 	Eliminate newlines in the comment to use ltp cloud in the future.
@@ -68,7 +69,6 @@ def error_correction(content):
 		print tmp_content
 	print "====="
 
-# Unpredictable Server Problem
 def call_ltp(line):
 	line =  ''.join(line.encode("utf-8").splitlines())
 	url_get_base = "http://api.ltp-cloud.com/analysis/?"
@@ -80,11 +80,17 @@ def call_ltp(line):
 	content = result.read().strip()
 	return content
 
-# def segmentation(content):
 def combine_segmentation_result(contents):
 	rst = '/'.join(contents.split("\n"))
 	rst = '/'.join(rst.split(" "))
 	return rst
+
+def add_pinyin(segmentation):
+	pylst = []
+	for word in segmentation.split('/'):
+		py = pinyin.get(word, format="numerical")
+		pylst.append(py)
+	return '/'.join(pylst)
 
 def preprocess(fname):
 	fin = codecs.open(fname, encoding='utf-8')
@@ -105,21 +111,18 @@ def preprocess(fname):
 					rst += call_ltp(item)
 				
 				segmentation = combine_segmentation_result(rst)
-				# if isinstance(segmentation, str):
-				# 	print "IS NOT UNICODE"
+				# Return type of the function is str, not unicode. Thus need to change into unicode.
 				segmentation = unicode(segmentation, "utf-8")
-				# if isinstance(segmentation, unicode):
-				# 	print "IS UNICODE"
+				pinyin = add_pinyin(segmentation)
+				# print pinyin
 				obj = {}
 				obj['flavor'] = data['flavor']
 				obj['environment'] = data['environment']
 				obj['service'] = data['service']
 				obj['content'] = data['content']
 				obj['segmentation'] = segmentation
-				print obj
-				# json.dumps(obj, fout, sort_keys=True, ensure_ascii=False)
-				# fout.write('\n')
-				# print json.dump(obj, ensure_ascii = False).encode('utf8')
+				obj['pinyin'] = pinyin
+				print segmentation
 				tmpstr = json.dumps(obj,ensure_ascii=False)
 				fout.write(tmpstr)
 				fout.write('\n')
@@ -134,11 +137,11 @@ def preprocess(fname):
 """
 def main(start_idx, end_idx):
 	global error_dic
-	error_dic = construct_error_dic()
-	preprocess("input.txt")
-	# for i in range(start_idx, end_idx):
-	# 	fname = "o_"+str(i)+".txt"
-	# 	preprocess(fname)
+	# error_dic = construct_error_dic()
+	# preprocess("input.txt")
+	for i in range(start_idx, end_idx):
+		fname = "o_"+str(i)+".txt"
+		preprocess(fname)
 
 if __name__ == "__main__":
 	print "End index not included!"
