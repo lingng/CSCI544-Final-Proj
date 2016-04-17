@@ -38,12 +38,13 @@ while 1:
 	# print tmp
 	data = json.loads(tmp)
 	c = data['content']
-	t = combine_to_one_para(c)
-	print t
+	# t = combine_to_one_para(c)
+	# print t
 	# print call_ltp(t)
 	# print c
 	# print "---"
 	# print c.strip()
-	# if detect(c) == "zh-cn":
-	# 	print c
-		# tmp = call_ltp(c)
+	if detect(c) == "zh-cn":
+		print c
+		tmp = call_ltp(c)
+		print tmp

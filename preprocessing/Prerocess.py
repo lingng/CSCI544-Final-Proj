@@ -5,6 +5,7 @@ import json
 import sys
 import codecs
 import jieba
+import urllib2
 from langdetect import detect
 
 """
@@ -67,15 +68,27 @@ def error_correction(content):
 		print tmp_content
 	print "====="
 
-def segmentation(content):
-	if detect(content) == "zh-cn":
-		print content
+# Unpredictable Server Problem
+def call_ltp(line):
+	line =  ''.join(line.encode("utf-8").splitlines())
+	url_get_base = "http://api.ltp-cloud.com/analysis/?"
+	api_key = 'F6k2x8z9LYEXRx5SHp9WHNhdLpAG9AxuLXknfTld'
+	text = line
+	format = 'plain'
+	pattern = 'ws'
+	result = urllib2.urlopen("%sapi_key=%s&text=%s&format=%s&pattern=%s" % (url_get_base,api_key,text,format,pattern))
+	content = result.read().strip()
+	return content
 
-		# tmp = call_ltp(c)
+# def segmentation(content):
+def combine_segmentation_result(contents):
+	rst = '/'.join(contents.split("\n"))
+	rst = '/'.join(rst.split(" "))
+	return rst
 
 def preprocess(fname):
 	fin = codecs.open(fname, encoding='utf-8')
-
+	fout  = codecs.open("output.txt", "w", encoding="utf-8")
 	while 1:
 		line = fin.readline()
 		if not line:
@@ -84,8 +97,31 @@ def preprocess(fname):
 		tmp = "{"+tmp
 		data = json.loads(tmp)
 		content = data['content']
-		error_correction(content)
-		# segmentation(content)
+		# error_correction(content)
+		content = content.strip()
+		if detect(content) == "zh-cn":
+			rst = ""
+			for item in content.split("\n"):
+				rst += call_ltp(item)
+			
+			segmentation = combine_segmentation_result(rst)
+			if isinstance(segmentation, str):
+				print "IS NOT UNICODE"
+			# obj = {}
+			# obj['flavor'] = data['flavor']
+			# obj['environment'] = data['environment']
+			# obj['service'] = data['service']
+			# obj['content'] = data['content']
+			# obj['segmentation'] = segmentation
+			# print obj
+			# json.dump(obj, fout, sort_keys=True, ensure_ascii=False)
+			# fout.write('\n')
+			# print json.dump(obj, ensure_ascii = False).encode('utf8')
+		        # tmpstr = json.dumps(obj,ensure_ascii=False)
+		        # fout.write(tmpstr)
+		        # fout.write('\n')
+	        
+			
 		# print content
 		# para = combine_to_one_para(content)
 		# para = replace_punctuation(para)
@@ -96,9 +132,10 @@ def preprocess(fname):
 def main(start_idx, end_idx):
 	global error_dic
 	error_dic = construct_error_dic()
-	for i in range(start_idx, end_idx):
-		fname = "o_"+str(i)+".txt"
-		preprocess(fname)
+	preprocess("input.txt")
+	# for i in range(start_idx, end_idx):
+	# 	fname = "o_"+str(i)+".txt"
+	# 	preprocess(fname)
 
 if __name__ == "__main__":
 	print "End index not included!"

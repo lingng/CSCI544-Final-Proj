@@ -19,8 +19,8 @@ import pinyin
 #     fname = "o_"+str(i)+".txt"
 #     out = "f_"+str(i)+".txt"
 
-fname = "o_0.txt"
-out = "f_0.txt"
+fname = "o_1.txt"
+out = "f_1.txt"
 
 fin = open(fname, 'r')
 with codecs.open(out, 'w', encoding="utf-8") as fout:
