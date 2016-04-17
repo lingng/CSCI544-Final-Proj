@@ -88,38 +88,41 @@ def combine_segmentation_result(contents):
 
 def preprocess(fname):
 	fin = codecs.open(fname, encoding='utf-8')
-	fout  = codecs.open("output.txt", "w", encoding="utf-8")
-	while 1:
-		line = fin.readline()
-		if not line:
-		    break
-		tmp = line.split(" ^ {")[1] # Get JSON
-		tmp = "{"+tmp
-		data = json.loads(tmp)
-		content = data['content']
-		# error_correction(content)
-		content = content.strip()
-		if detect(content) == "zh-cn":
-			rst = ""
-			for item in content.split("\n"):
-				rst += call_ltp(item)
-			
-			segmentation = combine_segmentation_result(rst)
-			if isinstance(segmentation, str):
-				print "IS NOT UNICODE"
-			# obj = {}
-			# obj['flavor'] = data['flavor']
-			# obj['environment'] = data['environment']
-			# obj['service'] = data['service']
-			# obj['content'] = data['content']
-			# obj['segmentation'] = segmentation
-			# print obj
-			# json.dump(obj, fout, sort_keys=True, ensure_ascii=False)
-			# fout.write('\n')
-			# print json.dump(obj, ensure_ascii = False).encode('utf8')
-		        # tmpstr = json.dumps(obj,ensure_ascii=False)
-		        # fout.write(tmpstr)
-		        # fout.write('\n')
+	with codecs.open("output.txt", 'w', encoding="utf-8") as fout:
+		while 1:
+			line = fin.readline()
+			if not line:
+			    break
+			tmp = line.split(" ^ {")[1] # Get JSON
+			tmp = "{"+tmp
+			data = json.loads(tmp)
+			content = data['content']
+			# error_correction(content)
+			content = content.strip()
+			if detect(content) == "zh-cn":
+				rst = ""
+				for item in content.split("\n"):
+					rst += call_ltp(item)
+				
+				segmentation = combine_segmentation_result(rst)
+				# if isinstance(segmentation, str):
+				# 	print "IS NOT UNICODE"
+				segmentation = unicode(segmentation, "utf-8")
+				# if isinstance(segmentation, unicode):
+				# 	print "IS UNICODE"
+				obj = {}
+				obj['flavor'] = data['flavor']
+				obj['environment'] = data['environment']
+				obj['service'] = data['service']
+				obj['content'] = data['content']
+				obj['segmentation'] = segmentation
+				print obj
+				# json.dumps(obj, fout, sort_keys=True, ensure_ascii=False)
+				# fout.write('\n')
+				# print json.dump(obj, ensure_ascii = False).encode('utf8')
+				tmpstr = json.dumps(obj,ensure_ascii=False)
+				fout.write(tmpstr)
+				fout.write('\n')
 	        
 			
 		# print content
