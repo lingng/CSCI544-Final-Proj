@@ -33,10 +33,11 @@ Add segmentation and pinyin to the filtered results, and the output the result i
 		}
 		
 ### Used Libs
-* [Langdetect (v 1.0.6)](https://pypi.python.org/pypi/langdetect)
-* [pinyin (v 0.3)](https://pypi.python.org/pypi/pinyin)
-* [jieba (v 0.38)](https://pypi.python.org/pypi/jieba)
+* [Langdetect (v 1.0.6)](https://pypi.python.org/pypi/langdetect) | [Github](http://lxyu.github.io/pinyin/)
+* [pinyin (v 0.3)](https://pypi.python.org/pypi/pinyin) | [Github](https://github.com/lxyu/pinyin)
+* [jieba (v 0.38)](https://pypi.python.org/pypi/jieba) | [Github](https://github.com/fxsjy/jieba)
 * [LTP (v 3.1.0)](http://www.ltp-cloud.com/intro/en/)
+* [requests (v 2.9.1)](http://docs.python-requests.org/en/master/)
 * [urllib2](https://docs.python.org/2/library/urllib2.html#module-urllib2)
 * [codecs](https://docs.python.org/2/library/codecs.html)
 * [json](https://docs.python.org/2/library/json.html)
