@@ -1,0 +1,3 @@
+Predict=222.0	TrueLabel=223	Accuracy=11.5970588235
+Predict=222.0	TrueLabel=12	Accuracy=10762.5518529
+Predict=222.0	TrueLabel=101	Accuracy=nan

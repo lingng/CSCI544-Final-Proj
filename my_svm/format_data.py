@@ -1,6 +1,7 @@
 import sys
 import numpy as py
 import json
+import ast
 from svmutil import *
 
 def readStopWordList(filePath):
@@ -81,7 +82,7 @@ def getXYArray(setting):
     feature = {}
     dict = parseJson(sys.argv[1])
     for key in dict:
-        label = str(dict[key]['service'])+str(dict[key]['environment'])+str(dict[key]['flavor'])
+        label = str(dict[key]['service']+1)+str(dict[key]['environment']+1)+str(dict[key]['flavor']+1)
         my_feature = {}
         for i in xrange(1, 4):
             fV = getNgramFVWithSetting(dict[key], setting, i)
@@ -109,7 +110,18 @@ def joinDictionaryString(dict):
     for i in dict.items():
         current = ':'.join(str(x) for x in i)
         temp.append(current)
-    return ' '.join(temp)    
+    return ' '.join(temp)  
+def readDataFromFile(path):
+    labels = []
+    feature_vectors = []
+    with open(path, 'r') as file:
+        for line in file:
+            line = line.strip();
+            tokens = line.split(' ')
+            labels.append(float(tokens[0]))
+            feature_vectors.append( ast.literal_eval('{' + (', '.join(tokens[1:]) ) +'}') )
+    return labels, feature_vectors
+  
 if __name__ == "__main__":
     labels, feature_vectors, mapping = getXYArray(int(sys.argv[2])) 
     with open('svm_training_input_' + sys.argv[2] + '.txt', 'w') as file:
