@@ -15,7 +15,7 @@ Add segmentation and pinyin to the filtered results, and the output the result i
 
 1. Construct restaurant url dictionary from the "review.txt". 
 2. For reviews for these restaurants, use langdetect lib to detect the language, and filter out the reviews written in Simplified Chinese, and with the environment, service and flavor scores. (Scores range: [0,4] ). Get the total count as:
-3. Split the files into smaller files.
+3. Split the large review file into smaller files.
 
 **Preprocess.py**
 
