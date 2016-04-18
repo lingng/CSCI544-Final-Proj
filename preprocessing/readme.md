@@ -21,9 +21,10 @@ Add segmentation and pinyin to the filtered results, and the output the result i
 
 **Preprocess.py**
 
-1. Get the review contents. For each line in the reviews, call NLP for segmentation.
+1. Get the review contents. For each line in the reviews, call LTP for segmentation.
 2. For each word in the segmentation, use pinyin to get the pinyin for this word.
 3. Construct the result json for each review in the following format:
+
 	
 		{	
 			'flavor': flavor score,
