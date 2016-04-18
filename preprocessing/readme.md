@@ -14,8 +14,10 @@ Add segmentation and pinyin to the filtered results, and the output the result i
 **FilterRecord.py**
 
 1. Construct restaurant url dictionary from the "review.txt". 
-2. For reviews for these restaurants, use langdetect lib to detect the language, and filter out the reviews written in Simplified Chinese, and with the environment, service and flavor scores. (Scores range: [0,4] ). Get the total count as:
-3. Split the large review file into smaller files.
+2. For reviews for these restaurants, use langdetect lib to detect the language, and filter out the reviews written in Simplified Chinese, and with the environment, service and flavor scores. (Scores range: [0,4] ). Get 3,235,043 records total.
+3. Split the large review file into smaller files. (190 files total)
+
+*Note: Maunally deleted the first row in reviews.txt for the format*
 
 **Preprocess.py**
 
