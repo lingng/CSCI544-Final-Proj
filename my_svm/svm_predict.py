@@ -70,8 +70,10 @@ def main(setting, option):
 if __name__ == '__main__':
     """
     argv = [inputfile, setting]
-    """
+    
     for i in xrange(1,4):
         for j in xrange(1,4):
             #generatePredictFile(i, j)
             main(i, j)
+    """
+    main(3, 1)
