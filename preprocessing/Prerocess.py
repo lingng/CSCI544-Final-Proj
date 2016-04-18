@@ -103,9 +103,11 @@ def add_pinyin(segmentation):
 		pylst.append(py)
 	return '/'.join(pylst)
 
-def preprocess(fname):
-	fin = codecs.open(fname, encoding='utf-8')
-	with codecs.open("output.txt", 'w', encoding="utf-8") as fout:
+def preprocess(index):
+	finname = "o_"+str(index)+".txt"
+	foutname = "f_"+str(index)+".txt"
+	fin = codecs.open(finname, encoding='utf-8')
+	with codecs.open(foutname, 'w', encoding="utf-8") as fout:
 		while 1:
 			line = fin.readline()
 			if not line:
@@ -116,29 +118,27 @@ def preprocess(fname):
 			content = data['content']
 			# error_correction(content)
 			content = content.strip()
-			if detect(content) == "zh-cn":
-				rst = ""
-				for item in content.split("\n"):
-					rst += call_ltp(item)
-					rst += "\n"
-				
-				segmentation = combine_segmentation_result(rst)
-				# Return type of the function is str, not unicode. Thus need to change into unicode.
-				segmentation = unicode(segmentation, "utf-8")
-				pinyin = add_pinyin(segmentation)
-				# print pinyin
-				obj = {}
-				obj['flavor'] = data['flavor']
-				obj['environment'] = data['environment']
-				obj['service'] = data['service']
-				obj['content'] = data['content']
-				obj['segmentation'] = segmentation
-				obj['pinyin'] = pinyin
-				print segmentation
-				tmpstr = json.dumps(obj,ensure_ascii=False)
-				fout.write(tmpstr)
-				fout.write('\n')
-	        
+			rst = ""
+			for item in content.split("\n"):
+				rst += call_ltp(item)
+				rst += "\n"
+			
+			segmentation = combine_segmentation_result(rst)
+			# Return type of the function is str, not unicode. Thus need to change into unicode.
+			segmentation = unicode(segmentation, "utf-8")
+			pinyin = add_pinyin(segmentation)
+			# print pinyin
+			obj = {}
+			obj['flavor'] = data['flavor']
+			obj['environment'] = data['environment']
+			obj['service'] = data['service']
+			obj['content'] = data['content']
+			obj['segmentation'] = segmentation
+			obj['pinyin'] = pinyin
+			print segmentation
+			tmpstr = json.dumps(obj,ensure_ascii=False)
+			fout.write(tmpstr)
+			fout.write('\n')
 			
 		# print content
 		# para = combine_to_one_para(content)
@@ -150,10 +150,10 @@ def preprocess(fname):
 def main(start_idx, end_idx):
 	# global error_dic
 	# error_dic = construct_error_dic()
-	preprocess("input.txt")
-	# for i in range(start_idx, end_idx):
-	# 	fname = "o_"+str(i)+".txt"
-	# 	preprocess(fname)
+	# preprocess("input.txt")
+	for i in range(start_idx, end_idx):
+		# fname = "o_"+str(i)+".txt"
+		preprocess(i)
 
 if __name__ == "__main__":
 	print "End index not included!"
