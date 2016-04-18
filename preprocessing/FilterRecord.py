@@ -77,47 +77,48 @@ def get_records_num(urls):
 """
 def split_files(file_num, urls):
 	num_per_file = 3400000 / file_num
-	fin = open("reviews.txt", 'r')
+	fin = codecs.open("reviews.txt", encoding='utf-8')
 	for i in range(0, file_num):
 		out = "o_"+str(i)+".txt"
 		print out
-		fout = open(out, 'w')
-		count = 0
-		while 1:
-			if count >= num_per_file:
-				break
-			line = fin.readline()
-			if not line:
-				break
-			if "flavor\":-1" in line:
-				continue
-			if "environment\":-1" in line:
-				continue
-			if "service\":-1" in line:
-				continue
-			if "content\":\"\"" in line:
-				continue
-			url = line.split(" ^ {")[0]
-			tmp = line.split(" ^ {")[1] # Get JSON
-			tmp = "{"+tmp
-			data = json.loads(tmp)
-			content = data['content']
-			content = content.strip()
-			if urls.has_key(url):
-				try:
-					if detect(content) == "zh-cn":
-						count += 1
-						fout.write(line)
-				except:
+		with codecs.open(out, 'w', encoding="utf-8") as fout:
+			count = 0
+			while 1:
+				if count >= num_per_file:
+					break
+				line = fin.readline()
+				if not line:
+					break
+				if "flavor\":-1" in line:
 					continue
+				if "environment\":-1" in line:
+					continue
+				if "service\":-1" in line:
+					continue
+				if "content\":\"\"" in line:
+					continue
+				url = line.split(" ^ {")[0]
+				tmp = line.split(" ^ {")[1] # Get JSON
+				tmp = "{"+tmp
+				data = json.loads(tmp)
+				content = data['content']
+				content = content.strip()
+				if urls.has_key(url):
+					try:
+						if detect(content) == "zh-cn":
+							count += 1
+							print count
+							fout.write(line)
+					except:
+						continue
 
 """
 	Main Function
 """
 def main():
     urls_dic = construct_url()
-    print get_records_num(urls_dic)    #3363141 number of records that meets the requirements
-    # split_files(100, urls_dic)
+    # print get_records_num(urls_dic)
+    split_files(200, urls_dic)
 
 
 if __name__ == "__main__":
