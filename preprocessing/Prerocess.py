@@ -3,12 +3,13 @@
 
 import requests
 import json
-import sys
+import sys, os
 import codecs
 # import jieba
 import urllib2
 from langdetect import detect
 import pinyin
+from pyltp import Segmentor
 
 
 """
@@ -103,9 +104,65 @@ def add_pinyin(segmentation):
 		pylst.append(py)
 	return '/'.join(pylst)
 
+def process(index):
+	# words = segmentor.segment(sentence)
+	# print "\t".join(words)
+
+	ROOTDIR = os.path.join(os.path.dirname(__file__), os.pardir)
+	sys.path.append(os.path.join(ROOTDIR, "lib"))
+
+	# Set your own model path
+	MODELDIR=os.path.join(ROOTDIR, "ltp_data")
+
+	segmentor = Segmentor()
+	segmentor.load(os.path.join(MODELDIR, "cws.model"))
+
+	# finname = "input.txt"
+	# foutname = "output.txt"
+	finname = "o_"+str(index)+".txt"
+	foutname = "p_"+str(index)+".txt"
+	print finname
+	count = 0
+	fin = codecs.open(finname, encoding='utf-8')
+	with codecs.open(foutname, 'w', encoding="utf-8") as fout:
+		while 1:
+			line = fin.readline()
+			if not line:
+			    break
+			tmp = line.split(" ^ {")[1] # Get JSON
+			tmp = "{"+tmp
+			data = json.loads(tmp)
+			content = data['content']
+			# error_correction(content)
+			content = content.strip()
+			segmentation = ""
+			for line in content.split("\n"):
+				line = line.encode("utf-8")
+				words = segmentor.segment(line)
+				segmentation += "/".join(words)
+				segmentation += "/"
+
+			# Return type of the function is str, not unicode. Thus need to change into unicode.
+			segmentation = unicode(segmentation, "utf-8")
+			pinyin = add_pinyin(segmentation)
+			# print pinyin
+			obj = {}
+			obj['flavor'] = data['flavor']
+			obj['environment'] = data['environment']
+			obj['service'] = data['service']
+			obj['content'] = data['content']
+			obj['segmentation'] = segmentation
+			obj['pinyin'] = pinyin
+			tmpstr = json.dumps(obj,ensure_ascii=False)
+			fout.write(tmpstr)
+			fout.write('\n')
+			count += 1
+			print count
+		segmentor.release()
+
 def preprocess(index):
 	finname = "o_"+str(index)+".txt"
-	foutname = "f_"+str(index)+".txt"
+	foutname = "p_"+str(index)+".txt"
 	fin = codecs.open(finname, encoding='utf-8')
 	with codecs.open(foutname, 'w', encoding="utf-8") as fout:
 		while 1:
@@ -151,9 +208,12 @@ def main(start_idx, end_idx):
 	# global error_dic
 	# error_dic = construct_error_dic()
 	# preprocess("input.txt")
+
 	for i in range(start_idx, end_idx):
-		# fname = "o_"+str(i)+".txt"
-		preprocess(i)
+		fname = "o_"+str(i)+".txt"
+		# preprocess(i)
+		process(i)
+
 
 if __name__ == "__main__":
 	print "End index not included!"
