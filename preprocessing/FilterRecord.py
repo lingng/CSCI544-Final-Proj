@@ -76,7 +76,7 @@ def get_records_num(urls):
 	@urls: Dictionary of restaurants urls.
 """
 def split_files(file_num, urls):
-	num_per_file = 3400000 / file_num
+	num_per_file = 3400000 / 200
 	fin = codecs.open("reviews.txt", encoding='utf-8')
 	for i in range(0, file_num):
 		out = "o_"+str(i)+".txt"
@@ -118,7 +118,7 @@ def split_files(file_num, urls):
 def main():
     urls_dic = construct_url()
     # print get_records_num(urls_dic)
-    split_files(200, urls_dic)
+    split_files(190, urls_dic)
 
 
 if __name__ == "__main__":
