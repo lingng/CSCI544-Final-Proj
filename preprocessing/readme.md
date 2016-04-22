@@ -9,7 +9,7 @@ Only keep reviews for restaurants, and with environment, service, and flavor sco
 Add segmentation and pinyin to the filtered results, and the output the result in a json format.
 
 
-### Process Procedure
+### Process Procedure Introduction
 
 **FilterRecord.py**
 
@@ -35,15 +35,29 @@ Add segmentation and pinyin to the filtered results, and the output the result i
 			'pinyin': pinyin for the segmentation
 		}
 		
-### Used Libs
+### How to run the code
+* Install needed packages. (langdetect, pinyin)
+* Install pyltp from the github.
+* Download pyltp's version 3.3.0 model from [Baidu Pan](http://pan.baidu.com/share/link?shareid=1988562907&uk=2738088569).
+* Copy the ltp_data folder under the root folder for this project (ltp_data folder has the same level as the preprocessing folder)
+* Run 
+
+
+		$python FilterRecord.py
+		
+* Run
+
+		$python Preprocess.py 0 190
+
+It will generate 190 files with the name of o\_[index].txt, and 190 files with the name of p\_[index].txt.
+
+The files with the name of p\_[index].txt are the input files for further processing.
+
+
+
+## Used Libs
 * [Langdetect (v 1.0.6)](https://pypi.python.org/pypi/langdetect) | [Github](http://lxyu.github.io/pinyin/)
 * [pinyin (v 0.3)](https://pypi.python.org/pypi/pinyin) | [Github](https://github.com/lxyu/pinyin)
-* [jieba (v 0.38)](https://pypi.python.org/pypi/jieba) | [Github](https://github.com/fxsjy/jieba)
-* [LTP (v 3.1.0)](http://www.ltp-cloud.com/intro/en/)
-* [requests (v 2.9.1)](http://docs.python-requests.org/en/master/)
-* [urllib2](https://docs.python.org/2/library/urllib2.html#module-urllib2)
+* [pyltp (v 3.3.0)](https://github.com/HIT-SCIR/pyltp)
 * [codecs](https://docs.python.org/2/library/codecs.html)
 * [json](https://docs.python.org/2/library/json.html)
-
-### Other Resources
-* Commonly mistyped word
