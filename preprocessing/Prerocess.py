@@ -104,9 +104,12 @@ def add_pinyin(segmentation):
 		pylst.append(py)
 	return '/'.join(pylst)
 
+"""
+	Use pyltp for segmentation
+
+	@index: index of the input file.
+"""
 def process(index):
-	# words = segmentor.segment(sentence)
-	# print "\t".join(words)
 
 	ROOTDIR = os.path.join(os.path.dirname(__file__), os.pardir)
 	sys.path.append(os.path.join(ROOTDIR, "lib"))
@@ -117,8 +120,6 @@ def process(index):
 	segmentor = Segmentor()
 	segmentor.load(os.path.join(MODELDIR, "cws.model"))
 
-	# finname = "input.txt"
-	# foutname = "output.txt"
 	finname = "o_"+str(index)+".txt"
 	foutname = "p_"+str(index)+".txt"
 	print finname
@@ -211,7 +212,6 @@ def main(start_idx, end_idx):
 
 	for i in range(start_idx, end_idx):
 		fname = "o_"+str(i)+".txt"
-		# preprocess(i)
 		process(i)
 
 
