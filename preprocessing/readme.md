@@ -1,4 +1,5 @@
 ## Preprocessing Readme
+---
 
 ### Overview
 
@@ -16,8 +17,6 @@ Add segmentation and pinyin to the filtered results, and the output the result i
 1. Construct restaurant url dictionary from the "review.txt". 
 2. For reviews for these restaurants, use langdetect lib to detect the language, and filter out the reviews written in Simplified Chinese, and with the environment, service and flavor scores. (Scores range: [0,4] ). Get 3,235,043 records total.
 3. Split the large review file into smaller files. (190 files total)
-
-*Note: Maunally deleted the first row in reviews.txt for the format*
 
 **Preprocess.py**
 
@@ -38,18 +37,18 @@ Add segmentation and pinyin to the filtered results, and the output the result i
 ### How to run the code
 * Install needed packages. (langdetect, pinyin)
 * Install pyltp from the github.
-* Download pyltp's version 3.3.0 model from [Baidu Pan](http://pan.baidu.com/share/link?shareid=1988562907&uk=2738088569).
+* Download pyltp's version 3.3.0 model from [Baidu Pan](http://pan.baidu.com/share/link?shareid=1988562907&uk=2738088569#path=%252Fltp-models%252F3.3.0).
 * Copy the ltp_data folder under the root folder for this project (ltp_data folder has the same level as the preprocessing folder)
 * Run 
 
-
 		$python FilterRecord.py
 		
+	This command will generate 190 files with the name of o\_[index].txt, which contains only records with 3 scores, with none empty comment content, in simplified Chinese, and also belongs to the reviews of restaurants.
 * Run
 
 		$python Preprocess.py 0 190
 
-It will generate 190 files with the name of o\_[index].txt, and 190 files with the name of p\_[index].txt.
+	This will use the files generated in the last step to generate 190 files with the name of p\_[index].txt. All records are in json format as shown above.
 
 The files with the name of p\_[index].txt are the input files for further processing.
 
