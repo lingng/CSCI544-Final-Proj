@@ -119,7 +119,6 @@ def split_files(file_num, urls):
 """
 def main():
     urls_dic = construct_url()
-    # print get_records_num(urls_dic)
     split_files(190, urls_dic)
 
 

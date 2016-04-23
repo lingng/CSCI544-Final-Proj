@@ -46,8 +46,12 @@ def error_correction(content):
 	if tmp_content != content:
 		print content
 		print tmp_content
-	print "====="
 
+"""
+	Use ltp API for segmentation
+
+	@line: input line
+"""
 def call_ltp(line):
 	line =  ''.join(line.encode("utf-8").splitlines())
 	url_get_base = "http://api.ltp-cloud.com/analysis/?"
@@ -61,12 +65,23 @@ def call_ltp(line):
 	content = r.content
 	return content
 
+"""
+	Combine segmetation results. Use '/' to separate different words
+
+	@contents: Segmentation results
+	return: use '/' to separate different words instead of "\\n" and spaces
+"""
 def combine_segmentation_result(contents):
-	print contents
 	rst = '/'.join(contents.split("\n"))
 	rst = '/'.join(rst.split(" "))
 	return rst
 
+"""
+	Add PinYin for segmentations
+
+	@segmentation: Segmentation for the input
+	return: Use '/' to separate the pinyin for different words
+"""
 def add_pinyin(segmentation):
 	pylst = []
 	for word in segmentation.split('/'):
@@ -132,7 +147,7 @@ def process(index):
 
 def preprocess(index):
 	finname = "o_"+str(index)+".txt"
-	foutname = "p_"+str(index)+".txt"
+	foutname = "f_"+str(index)+".txt"
 	fin = codecs.open(finname, encoding='utf-8')
 	with codecs.open(foutname, 'w', encoding="utf-8") as fout:
 		while 1:
@@ -154,7 +169,6 @@ def preprocess(index):
 			# Return type of the function is str, not unicode. Thus need to change into unicode.
 			segmentation = unicode(segmentation, "utf-8")
 			pinyin = add_pinyin(segmentation)
-			# print pinyin
 			obj = {}
 			obj['flavor'] = data['flavor']
 			obj['environment'] = data['environment']
@@ -167,7 +181,6 @@ def preprocess(index):
 			fout.write(tmpstr)
 			fout.write('\n')
 			
-
 """
 	Main Function
 """
@@ -175,7 +188,6 @@ def main(start_idx, end_idx):
 	for i in range(start_idx, end_idx):
 		fname = "o_"+str(i)+".txt"
 		process(i)
-
 
 if __name__ == "__main__":
 	print "End index not included!"

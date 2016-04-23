@@ -5,10 +5,9 @@
 
 Preprocess the reviews for future classification. 
 
-Only keep reviews for restaurants, and with environment, service, and flavor scores, and the reviews should be in Simplified Chinese. Split the large file into smaller files for processing.
+Only keep reviews for restaurants, and with environment, service, and flavor scores, and the reviews should be in Simplified Chinese. Split the large file into smaller files.
 
-Add segmentation and pinyin to the filtered results, and the output the result in a json format.
-
+Add segmentation and pinyin to the filtered results, and the output the result in json format.
 
 ### Process Procedure Introduction
 
@@ -26,17 +25,17 @@ Add segmentation and pinyin to the filtered results, and the output the result i
 
 	
 		{	
-			'flavor': flavor score,
-			'environment': environment score,
-			'service': service score,
-			'content': original review content,
-			'segmentation': segmentation of the review content,
-			'pinyin': pinyin for the segmentation
+			'flavor': (flavor score),
+			'environment': (environment score),
+			'service': (service score),
+			'content': (original review content),
+			'segmentation': (segmentation of the review content),
+			'pinyin': (pinyin for the segmentation)
 		}
 		
 ### How to run the code
 * Install needed packages. (langdetect, pinyin)
-* Install pyltp from the github.
+* Install [pyltp (v 3.3.0)](https://github.com/HIT-SCIR/pyltp) from github.
 * Download pyltp's version 3.3.0 model from [Baidu Pan](http://pan.baidu.com/share/link?shareid=1988562907&uk=2738088569#path=%252Fltp-models%252F3.3.0).
 * Copy the ltp_data folder under the root folder for this project (ltp_data folder has the same level as the preprocessing folder)
 * Run 
