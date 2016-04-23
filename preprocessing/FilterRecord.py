@@ -12,6 +12,7 @@ from langdetect import detect
 """
 def construct_url():
 	fin = open("businesses.txt", 'r')
+	line = fin.readline()
 	types = [u'太仓市', u'西樵', u'更多购物场所', u'博览中心']
 	urls = {}
 	while 1:
@@ -78,6 +79,7 @@ def get_records_num(urls):
 def split_files(file_num, urls):
 	num_per_file = 3400000 / 200
 	fin = codecs.open("reviews.txt", encoding='utf-8')
+	line = fin.readline()
 	for i in range(0, file_num):
 		out = "o_"+str(i)+".txt"
 		print out
