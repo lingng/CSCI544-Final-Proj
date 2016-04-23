@@ -9,7 +9,7 @@ Only keep reviews for restaurants, and with environment, service, and flavor sco
 
 Add segmentation and pinyin to the filtered results, and the output the result in json format.
 
-### Process Procedure Introduction
+### Process Files Introduction
 
 **FilterRecord.py**
 
@@ -33,6 +33,8 @@ Add segmentation and pinyin to the filtered results, and the output the result i
 			'pinyin': (pinyin for the segmentation)
 		}
 		
+	Segmentations and Pinyins are separated by '/'.
+	
 ### How to run the code
 * Install needed packages. (langdetect, pinyin)
 * Install [pyltp (v 3.3.0)](https://github.com/HIT-SCIR/pyltp) from github.
