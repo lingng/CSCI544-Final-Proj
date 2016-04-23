@@ -1,12 +1,9 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-import requests
 import json
 import sys, os
 import codecs
-# import jieba
-import urllib2
 from langdetect import detect
 import pinyin
 from pyltp import Segmentor
@@ -27,27 +24,6 @@ def combine_to_one_para(lines):
 	@paragraph: Comment content with chinese punctuations
 	return: Comment content with english punctuations
 """
-def replace_punctuation(paragraph):
-	punctuation_dic = {
-		u'。':u'.',
-		u'，':u',',
-		u'！':u'!',
-		u'：':u':',
-		u'（':u'(',
-		u'）':u')',
-		u'’':u'\'',
-		u'；':u';',
-		u'、':u',',
-		u'～':u'~',
-		u'“':u'"',
-		u'”':u'"',
-		u'＝':u'=',
-		u'＊':u'*',
-		u'？':u'?'
-	}
-	for key, value in punctuation_dic.iteritems():
-		paragraph = value.join(paragraph.split(key))
-	return paragraph
 
 def construct_error_dic():
 	fin = codecs.open('dic_wrong.txt', encoding='utf-8')
@@ -83,13 +59,7 @@ def call_ltp(line):
 	obj = {'api_key': api_key, 'text': text, 'format': format, 'pattern': pattern}
 	r = requests.get(url_get_base, params=obj)
 	content = r.content
-	# url = r.url
-	# result = urllib2.urlopen("%sapi_key=%s&text=%s&format=%s&pattern=%s" % (url_get_base,api_key,text,format,pattern))
-	# result = urllib2.urlopen("%s%s" % (url_get_base,parameter))
-	# result = urllib2.urlopen(url)
-	# content = result.read().strip()
 	return content
-	# return " "
 
 def combine_segmentation_result(contents):
 	print contents
@@ -146,7 +116,6 @@ def process(index):
 			# Return type of the function is str, not unicode. Thus need to change into unicode.
 			segmentation = unicode(segmentation, "utf-8")
 			pinyin = add_pinyin(segmentation)
-			# print pinyin
 			obj = {}
 			obj['flavor'] = data['flavor']
 			obj['environment'] = data['environment']
@@ -198,18 +167,11 @@ def preprocess(index):
 			fout.write(tmpstr)
 			fout.write('\n')
 			
-		# print content
-		# para = combine_to_one_para(content)
-		# para = replace_punctuation(para)
 
 """
 	Main Function
 """
 def main(start_idx, end_idx):
-	# global error_dic
-	# error_dic = construct_error_dic()
-	# preprocess("input.txt")
-
 	for i in range(start_idx, end_idx):
 		fname = "o_"+str(i)+".txt"
 		process(i)
