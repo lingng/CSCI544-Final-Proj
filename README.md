@@ -17,8 +17,7 @@ All intermediate results were cached.<br>
 
 Task to be worked on:<br>
 1. feature selection and reduce feature set.<br>
-2. feature weighting.<br>
-3. parameter tuning.<br>
+2. parameter tuning<br>
 
 Library used:<br>
 1. [libsvm](https://www.csie.ntu.edu.tw/~cjlin/libsvm/)<br>
