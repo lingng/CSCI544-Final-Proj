@@ -1,4 +1,8 @@
+# pyltp model folder
 ltp_data/
+
+# svm model files
+*.model
 
 # text file
 *.txt
