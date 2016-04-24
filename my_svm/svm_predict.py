@@ -1,5 +1,5 @@
 import sys
-from svmutil import *
+from liblinearutil import *
 from format_data import *
 
 def readFeatureFromFile(path):

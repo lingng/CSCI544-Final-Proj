@@ -1,8 +1,11 @@
 import sys
+import os
+import pickle
 import numpy as py
 import json
 import ast
 from svmutil import *
+from pickle import NONE
 
 def readStopWordList(filePath):
     output = []
@@ -75,46 +78,30 @@ def getNgramFVWithSetting(data, setting, N):
 def decodeUTF8(key_tuple):
     return ''.join(x.encode('utf-8') for x in key_tuple)
 
-def getXYArray(setting, option):    
+def getXYArray(current_file, feature_dict, N, option, setting):    
     #stopWords = set(readStopWordList('Chinese_stopwords.txt') )
+    option_tag = ['service', 'environment', 'flavor']
     labels = []
     feature_vectors = []
-    feature = {}
-    dict = parseJson(sys.argv[1])
-    for key in dict:
-        label = ''
-        if option == 1:
-            label = str(dict[key]['service']+1)
-        if option == 2:
-            label = str(dict[key]['environment']+1)
-        if option == 3:
-            label = str(dict[key]['flavor']+1)
-        if option == 4:    
-            label = str(dict[key]['service']+1)+str(dict[key]['environment']+1)+str(dict[key]['flavor']+1)
+    dict = parseJson(current_file)
+    for key in dict:    
+        label = None
+        temp = dict[key][option_tag[option-1]]    
+        if temp < 2:
+            label = -1
+        if temp == 2:
+            label = 0
+        if temp > 2:
+            label = 1
         my_feature = {}
-        for i in xrange(1, 4):
-            fV = getNgramFVWithSetting(dict[key], setting, i)
-            for f in fV:
-                #if fV[f] == 1:
-                #    continue
-                if len(f)<1:
-                    continue
-                if f not in feature:    #new feature, assign this feature a number and record its numerical value
-                    value = len(feature)
-                    feature[f] = value
-                    my_feature[value] = fV[f]
-                else:   #existing feature, find its assigned number and record its numerical value
-                    my_feature[feature[f]] = fV[f]
+        fV = getNgramFVWithSetting(dict[key], setting, N)
+        for f in fV:
+            if len(f)<1 or f not in feature_dict:
+                continue
+            my_feature[feature_dict[f]] = fV[f]
         labels.append(label)
-        feature_vectors.append(my_feature)
-    """
-    for key in feature:
-        print decodeUTF8(key), feature[key]
-       
-    for index, element in enumerate(labels):
-        print element, feature_vectors[index]
-    """            
-    return labels, feature_vectors, feature
+        feature_vectors.append(my_feature)           
+    return labels, feature_vectors
 def joinDictionaryString(dict):
     temp = []
     for i in dict.items():
@@ -131,15 +118,36 @@ def readDataFromFile(path):
             labels.append(float(tokens[0]))
             feature_vectors.append( ast.literal_eval('{' + (', '.join(tokens[1:]) ) +'}') )
     return labels, feature_vectors
-  
+
+def load_feature(path):
+    output = None
+    with open(path, 'rb') as file:
+        output = pickle.load(file)
+    return output
+
+def main():
+    option_tag = ['_service', '_environment', '_flavor']
+    ngram_tag = ['unigram_', 'bigram_', 'trigram_']
+    setting_tag = ['chinese_only_', 'pinyin_only_', 'chinese_pinyin_']
+    parent_dir = os.path.dirname(os.path.abspath(os.curdir) )
+    for setting in xrange(1, 4):
+        for N in xrange(1, 4):
+            path = 'feature_dict_'+ngram_tag[N-1] + setting_tag[setting-1]+'.pickle'
+            feature_dict = load_feature(path)
+            archive_path = os.path.join(parent_dir, 'Testing')
+            for dirPath, dirNames, fileNames in os.walk(archive_path):
+                for f in fileNames:
+                    if not '.txt' in f:
+                        continue
+                    current_file = os.path.join(dirPath, f)
+                    for option in xrange(1, 4):
+                        labels, feature_vectors = getXYArray(current_file, feature_dict, N, option, setting)
+                        output_dir = os.path.join(parent_dir, 'testing'+option_tag[option-1])
+                        temp_file_name = f.replace('.txt', '_') +ngram_tag[N-1] + setting_tag[setting-1] + '.txt'
+                        output_path = os.path.join(output_dir, temp_file_name)
+                        with open(output_path, 'w') as outfile:
+                            for index, element in enumerate(labels):
+                                outfile.write(str(element) + ' ' + joinDictionaryString(feature_vectors[index]) + '\n')
 if __name__ == "__main__":
-    option = 3
-    option_tag = ['service_', 'environment_', 'flavor_', '']
-    labels, feature_vectors, mapping = getXYArray(int(sys.argv[2]), option) 
-    with open('svm_training_input_'+ option_tag[option-1] + sys.argv[2] + '.txt', 'w') as file:
-        for index, element in enumerate(labels):
-            file.write(str(element) + ' ' + joinDictionaryString(feature_vectors[index]) + '\n')   
-    with open('feature_mapping_' + option_tag[option-1] + sys.argv[2] + '.txt', 'w') as file:
-        for key in mapping:
-            file.write(decodeUTF8(key)+':'+ str(mapping[key])+'\n');   
+    main()
     
