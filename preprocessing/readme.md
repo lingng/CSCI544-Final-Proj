@@ -40,6 +40,7 @@ Add segmentation and pinyin to the filtered results, and the output the result i
 * Install [pyltp (v 3.3.0)](https://github.com/HIT-SCIR/pyltp) from github.
 * Download pyltp's version 3.3.0 model from [Baidu Pan](http://pan.baidu.com/share/link?shareid=1988562907&uk=2738088569#path=%252Fltp-models%252F3.3.0).
 * Copy the ltp_data folder under the root folder for this project (ltp_data folder has the same level as the preprocessing folder)
+* Download the data set, move the "review.txt" and "businesses.txt" into the preprocess folder.
 * Run 
 
 		$python FilterRecord.py
