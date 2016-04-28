@@ -4,6 +4,8 @@ import pickle
 import json
 from format_data import *
 
+ngram_tag = ['unigram_', 'bigram_', 'trigram_']
+setting_tag = ['chinese_only_', 'pinyin_only_', 'chinese_pinyin_']
 
 def main(N, setting):
     parent_dir = os.path.dirname(os.path.abspath(os.curdir) )
@@ -25,11 +27,17 @@ def main(N, setting):
                             value = len(features)
                             features[feature] = value
     
-    ngram_tag = ['unigram_', 'bigram_', 'trigram_']
-    setting_tag = ['chinese_only_', 'pinyin_only_', 'chinese_pinyin_']
+    
     print 'Number of features for setting /"%s/" = %s' % (setting_tag[setting-1], len(features) )
     with open('feature_dict_'+ngram_tag[N-1] + setting_tag[setting-1]+'.pickle', 'w') as outfile:
         pickle.dump(features, outfile)    
+
+def test():
+    for N in xrange(1, 4):
+        for setting in xrange(1, 4):
+            with open('feature_dict_'+ngram_tag[N-1] + setting_tag[setting-1]+'.pickle', 'r') as infile:
+                features = pickle.load(infile)
+                print 'file: %s, size = %s' % (infile, len(features))
 
 if __name__ == '__main__':
     for setting in xrange(1, 4):

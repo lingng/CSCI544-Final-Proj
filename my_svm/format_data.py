@@ -115,6 +115,8 @@ def readDataFromFile(path):
         for line in file:
             line = line.strip();
             tokens = line.split(' ')
+            if int(tokens[0]) == 0:
+                continue
             labels.append(float(tokens[0]))
             feature_vectors.append( ast.literal_eval('{' + (', '.join(tokens[1:]) ) +'}') )
     return labels, feature_vectors

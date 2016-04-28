@@ -7,12 +7,12 @@ def main():
     setting_tag = ['chinese_only_', 'pinyin_only_', 'chinese_pinyin_']
     parent_dir = os.path.dirname(os.path.abspath(os.curdir) )
     for option in xrange(1, 4):
-        working_dir = os.path.join(parent_dir, 'training'+option_tag[option-1])        
+        working_dir = os.path.join(parent_dir, 'testing'+option_tag[option-1])        
         for setting in xrange(1, 4):
             for N in xrange(1, 4):
-                output_path = os.path.join(parent_dir, 'training_input'+option_tag[option-1]+'_'+ngram_tag[N-1]+setting_tag[setting-1]+'.txt')
+                output_path = os.path.join(parent_dir, 'testing_input'+option_tag[option-1]+'_'+ngram_tag[N-1]+setting_tag[setting-1]+'.txt')
                 with open(output_path, 'w') as outfile:
-                    for dirPath, dirNames, fileNames in os.walk(os.path.join(parent_dir, 'Archive')):
+                    for dirPath, dirNames, fileNames in os.walk(os.path.join(parent_dir, 'Testing')):
                         for f in fileNames:
                             if not '.txt' in f:
                                 continue
