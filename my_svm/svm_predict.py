@@ -1,79 +1,34 @@
 import sys
-from svmutil import *
-from format_data import *
+from liblinearutil import *
+from format_data import *          
 
-def readFeatureFromFile(path):
-    output = {}
-    with open(path, 'r') as file:
-        for line in file:
-            line = line.strip()
-            tokens = line.split(':')
-            if len(tokens) < 2:
-                continue
-            output[tokens[0]] = tokens[1]
-    return output
-
-def convertData(setting, option):
+def main(option_s, option_e, N_s, N_e, setting_s, setting_e):
     option_tag = ['service_', 'environment_', 'flavor_', '']
-    feature_file = 'feature_mapping_'+option_tag[option-1]+str(setting)+'.txt'
-    feature = readFeatureFromFile(feature_file)
-    dict = parseJson(sys.argv[1])
-    labels = []
-    feature_vectors = []
-    for key in dict:
-        label = ''
-        if option == 1:
-            label = str(dict[key]['service']+1)
-        if option == 2:
-            label = str(dict[key]['environment']+1)
-        if option == 3:
-            label = str(dict[key]['flavor']+1)
-        if option == 4:    
-            label = str(dict[key]['service']+1)+str(dict[key]['environment']+1)+str(dict[key]['flavor']+1)
-        my_feature = {}
-        for i in xrange(1, 4):
-            fV = getNgramFVWithSetting(dict[key], setting, i)
-            for f in fV:
-                #if fV[f] == 1:
-                #    continue
-                if f not in feature or len(f)<1:    #unseen feature, skip
-                    continue
-                else:   #existing feature, find its assigned number and record its numerical value
-                    #print feature[f]
-                    my_feature[int(feature[f])] = fV[f]
-        labels.append(int(label))
-        feature_vectors.append(my_feature)
-    return labels, feature_vectors
-
-def outputToFile(path, labels, feature_vectors):
-    with open(path, 'w') as file:
-        for index, element in enumerate(labels):
-            file.write(str(element) + ' ' + joinDictionaryString(feature_vectors[index]) + '\n') 
-            
-def generatePredictFile(setting, option):
-    option_tag = ['service_', 'environment_', 'flavor_', '']
-    trueLabels, feature_vectors = convertData(setting, option)
-    outputToFile('svm_predict_input_'+option_tag[option-1]+str(setting)+'.txt', trueLabels, feature_vectors)
-
-def main(setting, option):
-    option_tag = ['service_', 'environment_', 'flavor_', '']
-    m = svm_load_model('svm_model_' + option_tag[option-1] + str(setting) + '.model')
-    fileName = 'svm_predict_input_'+option_tag[option-1] + str(setting) +'.txt'
-    trueLabels, feature_vectors = readDataFromFile(fileName)
-    p_labs, p_acc, p_vals = svm_predict(trueLabels, feature_vectors, m)
-    print trueLabels
-    print p_labs
-    print p_acc
-    with open('prediction_output_'+option_tag[option-1] + str(setting)+'.txt', 'w') as outfile:
-        for index, value in enumerate(p_labs):
-            outfile.write('Predict=%s\tTrueLabel=%s\n'%(value, trueLabels[index]))
+    ngram_tag = ['unigram_', 'bigram_', 'trigram_']
+    setting_tag = ['chinese_only_', 'pinyin_only_', 'chinese_pinyin_']
+    parent_dir = os.path.dirname(os.path.abspath(os.curdir) )
+    for option in xrange(option_s, option_e):
+        for setting in xrange(setting_s, setting_e):
+            for N in xrange(N_s, N_e):
+                model_id = 'svm_model(150)_' + option_tag[option-1]+ngram_tag[N-1]+setting_tag[setting-1] + '.model'
+                print 'Load model %s...' % model_id
+                m = load_model(model_id)
+                input_file_name = 'testing_input_'+option_tag[option-1]+ngram_tag[N-1]+setting_tag[setting-1]+'.txt'
+                input_file_path = os.path.join(parent_dir, input_file_name )
+                output_dir = os.path.join(parent_dir, 'prediction_output')
+                print 'predicting file %s...' % input_file_path
+                trueLabels, feature_vectors = readDataFromFile(input_file_path)
+                p_labs, p_acc, p_vals = predict(trueLabels, feature_vectors, m)
+                fileName = os.path.join(output_dir, 'prediction_'+input_file_name )
+                print 'outputting to file %s...' % fileName
+                with open(fileName, 'w') as outfile:                    
+                    for index, value in enumerate(p_labs):
+                        outfile.write('Predict=%s\tTrueLabel=%s\n'%(value, trueLabels[index]))
 if __name__ == '__main__':
-    """
-    argv = [inputfile, setting]
-    
-    for i in xrange(1,4):
-        for j in xrange(1,4):
-            #generatePredictFile(i, j)
-            main(i, j)
-    """
-    main(3, 1)
+    option_s = 3
+    option_e = option_s+1
+    N_s = 1
+    N_e = N_s+1
+    setting_s = 3
+    setting_e = setting_s+1
+    main(option_s, option_e, N_s, N_e, setting_s, setting_e)

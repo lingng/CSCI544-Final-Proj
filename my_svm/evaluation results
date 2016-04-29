@@ -1,0 +1,135 @@
+prediction_testing_input_environment_bigram_chinese_only_.txt:
+(tp, tn, fp, fn) = (35352, 136684, 14844, 26324)
+precision = 0.704279225436, recall = 0.573188922758, F1 = 0.632008009153
+Accuracy (correct/total) = 80.6907937937%
+---------------------------------------------------------------
+prediction_testing_input_environment_bigram_chinese_pinyin_.txt:
+(tp, tn, fp, fn) = (36282, 135670, 15858, 25394)
+precision = 0.69585730725, recall = 0.588267721642, F1 = 0.637555352499
+Accuracy (correct/total) = 80.6513949082%
+---------------------------------------------------------------
+prediction_testing_input_environment_bigram_pinyin_only_.txt:
+(tp, tn, fp, fn) = (38309, 133102, 18426, 23367)
+precision = 0.675226932229, recall = 0.621133017705, F1 = 0.647051371916
+Accuracy (correct/total) = 80.3976473237%
+---------------------------------------------------------------
+prediction_testing_input_environment_trigram_chinese_only_.txt:
+(tp, tn, fp, fn) = (36832, 134970, 16558, 24844)
+precision = 0.689867016295, recall = 0.597185290875, F1 = 0.640189108859
+Accuracy (correct/total) = 80.5810397554%
+---------------------------------------------------------------
+prediction_testing_input_environment_trigram_chinese_pinyin_.txt:
+(tp, tn, fp, fn) = (34939, 136920, 14608, 26737)
+precision = 0.705168829596, recall = 0.566492638952, F1 = 0.628269332782
+Accuracy (correct/total) = 80.6077747134%
+---------------------------------------------------------------
+prediction_testing_input_environment_trigram_pinyin_only_.txt:
+(tp, tn, fp, fn) = (35753, 136141, 15387, 25923)
+precision = 0.699120062573, recall = 0.579690641416, F1 = 0.63382853496
+Accuracy (correct/total) = 80.6241909157%
+---------------------------------------------------------------
+prediction_testing_input_environment_unigram_chinese_only_.txt:
+(tp, tn, fp, fn) = (39628, 131161, 20367, 22048)
+precision = 0.660521710143, recall = 0.642518970102, F1 = 0.651395977678
+Accuracy (correct/total) = 80.1059079567%
+---------------------------------------------------------------
+prediction_testing_input_environment_unigram_chinese_pinyin_.txt:
+(tp, tn, fp, fn) = (35845, 136178, 15350, 25831)
+precision = 0.700166031839, recall = 0.581182307543, F1 = 0.635149861346
+Accuracy (correct/total) = 80.6846963472%
+---------------------------------------------------------------
+prediction_testing_input_environment_unigram_pinyin_only_.txt:
+(tp, tn, fp, fn) = (38530, 132649, 18879, 23146)
+precision = 0.67114912296, recall = 0.624716259161, F1 = 0.647100810346
+Accuracy (correct/total) = 80.288831354%
+---------------------------------------------------------------
+prediction_testing_input_flavor_bigram_chinese_only_.txt:
+(tp, tn, fp, fn) = (76538, 78639, 17305, 18550)
+precision = 0.815596261842, recall = 0.804917550059, F1 = 0.810221721157
+Accuracy (correct/total) = 81.2308932535%
+---------------------------------------------------------------
+prediction_testing_input_flavor_bigram_chinese_pinyin_.txt:
+(tp, tn, fp, fn) = (74362, 80323, 15621, 20726)
+precision = 0.826400542325, recall = 0.782033484772, F1 = 0.803605102906
+Accuracy (correct/total) = 80.9733447799%
+---------------------------------------------------------------
+prediction_testing_input_flavor_bigram_pinyin_only_.txt:
+(tp, tn, fp, fn) = (77798, 77246, 18698, 17290)
+precision = 0.806230310065, recall = 0.818168433451, F1 = 0.812155503591
+Accuracy (correct/total) = 81.16127141%
+---------------------------------------------------------------
+prediction_testing_input_flavor_trigram_chinese_only_.txt:
+(tp, tn, fp, fn) = (77572, 77642, 18302, 17516)
+precision = 0.809103615162, recall = 0.8157916877, F1 = 0.81243388737
+Accuracy (correct/total) = 81.2502617363%
+---------------------------------------------------------------
+prediction_testing_input_flavor_trigram_chinese_pinyin_.txt:
+(tp, tn, fp, fn) = (76493, 78402, 17542, 18595)
+precision = 0.813452437922, recall = 0.804444304223, F1 = 0.808923293306
+Accuracy (correct/total) = 81.0832740064%
+---------------------------------------------------------------
+prediction_testing_input_flavor_trigram_pinyin_only_.txt:
+(tp, tn, fp, fn) = (78116, 76836, 19108, 16972)
+precision = 0.803464165227, recall = 0.821512704022, F1 = 0.812388202504
+Accuracy (correct/total) = 81.1131119394%
+---------------------------------------------------------------
+prediction_testing_input_flavor_unigram_chinese_only_.txt:
+(tp, tn, fp, fn) = (76098, 79026, 16918, 18990)
+precision = 0.81811731315, recall = 0.800290257446, F1 = 0.809105601157
+Accuracy (correct/total) = 81.2031492106%
+---------------------------------------------------------------
+prediction_testing_input_flavor_unigram_chinese_pinyin_.txt:
+(tp, tn, fp, fn) = (76125, 78961, 16983, 18963)
+precision = 0.817598917386, recall = 0.800574204947, F1 = 0.808997003124
+Accuracy (correct/total) = 81.1832572553%
+---------------------------------------------------------------
+prediction_testing_input_flavor_unigram_pinyin_only_.txt:
+(tp, tn, fp, fn) = (78026, 77104, 18840, 17062)
+precision = 0.805504511387, recall = 0.820566212351, F1 = 0.812965606343
+Accuracy (correct/total) = 81.2062900456%
+---------------------------------------------------------------
+prediction_testing_input_service_bigram_chinese_only_.txt:
+(tp, tn, fp, fn) = (30461, 136264, 14664, 28215)
+precision = 0.67503601108, recall = 0.519139000614, F1 = 0.586911494109
+Accuracy (correct/total) = 79.5428522356%
+---------------------------------------------------------------
+prediction_testing_input_service_bigram_chinese_pinyin_.txt:
+(tp, tn, fp, fn) = (34707, 131419, 19509, 23969)
+precision = 0.640161575919, recall = 0.591502488241, F1 = 0.614870850016
+Accuracy (correct/total) = 79.2570752467%
+---------------------------------------------------------------
+prediction_testing_input_service_bigram_pinyin_only_.txt:
+(tp, tn, fp, fn) = (32186, 134434, 16494, 26490)
+precision = 0.661175020542, recall = 0.548537732633, F1 = 0.599612504192
+Accuracy (correct/total) = 79.4927577718%
+---------------------------------------------------------------
+prediction_testing_input_service_trigram_chinese_only_.txt:
+(tp, tn, fp, fn) = (33503, 132743, 18185, 25173)
+precision = 0.648177526699, recall = 0.570983025428, F1 = 0.607136385053
+Accuracy (correct/total) = 79.3143260625%
+---------------------------------------------------------------
+prediction_testing_input_service_trigram_chinese_pinyin_.txt:
+(tp, tn, fp, fn) = (32546, 133885, 17043, 26130)
+precision = 0.656314908548, recall = 0.554673120185, F1 = 0.601228467187
+Accuracy (correct/total) = 79.4025877369%
+---------------------------------------------------------------
+prediction_testing_input_service_trigram_pinyin_only_.txt:
+(tp, tn, fp, fn) = (32597, 133777, 17151, 26079)
+precision = 0.655242421806, recall = 0.555542300089, F1 = 0.601287537815
+Accuracy (correct/total) = 79.3753935994%
+---------------------------------------------------------------
+prediction_testing_input_service_unigram_chinese_only_.txt:
+(tp, tn, fp, fn) = (33011, 133559, 17369, 25665)
+precision = 0.655240174672, recall = 0.562597995773, F1 = 0.605395393192
+Accuracy (correct/total) = 79.4689032652%
+---------------------------------------------------------------
+prediction_testing_input_service_unigram_chinese_pinyin_.txt:
+(tp, tn, fp, fn) = (33906, 132569, 18359, 24770)
+precision = 0.648732421314, recall = 0.577851250937, F1 = 0.61124381428
+Accuracy (correct/total) = 79.4235797027%
+---------------------------------------------------------------
+prediction_testing_input_service_unigram_pinyin_only_.txt:
+(tp, tn, fp, fn) = (37997, 126274, 24654, 20679)
+precision = 0.606486728065, recall = 0.647573113368, F1 = 0.626356870276
+Accuracy (correct/total) = 78.372073052%
+---------------------------------------------------------------
