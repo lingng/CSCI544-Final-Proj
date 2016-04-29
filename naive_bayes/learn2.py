@@ -7,8 +7,8 @@ import json
 import pickle
 import glob
 
-_class_num = 2
-_feature = 0  # 0 phrases only, 1 pinyin only
+_feature = 2  # 0 phrases only, 1 pinyin only, 2 mixed
+_ngram = 1
 c = 0
 
 priors = {
@@ -45,16 +45,13 @@ def learn_one(aspect, data, words):
     """
     global priors, posteriors
     if data[aspect]:
-        if _class_num == 2:
-            if data[aspect] > 2:
-                rate = 1
-            elif data[aspect] < 2:
-                rate = 0
-            else:
-                # ignore review whose rating is 3
-                return
+        if data[aspect] > 2:
+            rate = 1
+        elif data[aspect] < 2:
+            rate = 0
         else:
-            rate = data[aspect]
+            # ignore review whose rating is 3
+            return
 
         priors[aspect][rate] += 1
         for word in words:
@@ -99,14 +96,28 @@ def learn(file):
     for line in file:
         c += 1
         json_data = json.loads(line, encoding="utf-8")
+
         if _feature == 0:
             words = json_data["segmentation"].split("/")
         elif _feature == 1:
             words = json_data["pinyin"].split("/")
-        learn_one("service", json_data, words)
+        elif _feature == 2:
+            words = json_data["segmentation"].split(
+                "/") + json_data["pinyin"].split("/")
+        ngrams = []
+        if _ngram == 1:
+            ngrams = words
+        elif _ngram == 2:
+            for i in range(len(words) - 1):
+                ngrams.append(words[i] + "_" + words[i + 1])
+        elif _ngram == 3:
+            for i in range(len(words) - 2):
+                ngrams.append(words[i] + "_" +
+                              words[i + 1] + "_" + words[i + 2])
+        learn_one("service", json_data, ngrams)
         # print posteriors["service"]
-        learn_one("environment", json_data, words)
-        learn_one("flavor", json_data, words)
+        learn_one("environment", json_data, ngrams)
+        learn_one("flavor", json_data, ngrams)
 
 
 def main():
@@ -125,8 +136,8 @@ def main():
     with open(sys.argv[2], "w") as f:
         pickle.dump(priors, f)
         pickle.dump(posteriors, f)
-        pickle.dump(_class_num, f)
         pickle.dump(_feature, f)
+        pickle.dump(_ngram, f)
 
 
 if __name__ == "__main__":
