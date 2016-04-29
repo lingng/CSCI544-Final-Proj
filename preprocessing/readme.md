@@ -48,7 +48,7 @@ Add segmentation and pinyin to the filtered results, and the output the result i
 	This command will generate 190 files with the name of o\_[index].txt, which contains only records with 3 scores, with none empty comment content, in simplified Chinese, and also belongs to the reviews of restaurants.
 * Run
 
-		$python Preprocess.py 0 190
+		$python Preprocess.py 0 191
 
 	This will use the files generated in the last step to generate 190 files with the name of p\_[index].txt. All records are in json format as shown above.
 
