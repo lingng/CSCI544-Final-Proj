@@ -4,6 +4,7 @@
 * [Team member](#team)
 * [Data Set](#dataset)
 * [Introductions for each part](#introduction)
+* [Division of labor](#division)
 * [Used Libraries](#libs)
 
 #### [Team member](id:team)
@@ -15,9 +16,14 @@
 #### [Data set](id:dataset)
 * [Dianping Review Dataset](http://yongfeng.me/dataset/)
 
-
 #### [Introductions for each part](id:introduction)
 * Please check the readme file under each separate folder for specific introductions and instructions
+
+#### [Division of Labor](id:division)
+* Yuting ZHANG: Preprocessing
+* Shihao YU: Naive Bayes
+* Ming-Lung CHEN: SVM
+* Mengxia ZHANG: Deep Learning
 
 #### [Used Libraries](id:libs)
 * [libsvm](https://www.csie.ntu.edu.tw/~cjlin/libsvm/)
