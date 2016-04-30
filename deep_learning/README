@@ -1,0 +1,26 @@
+This folder holds the code for training and testing polarity classification model using a deep neural network.
+It mainly uses the Crepe project written by Xiang Zhang (https://github.com/zhangxiangxiao/Crepe), which is implemented using Torch 7 and is described in the following paper:
+Xiang Zhang, Junbo Zhao, Yann LeCun. Character-level Convolutional Networks for Text Classification. Advances in Neural Information Processing Systems 28 (NIPS 2015)
+To use it, you need to first install Torch (http://torch.ch/).
+The usages of the main functions and scripts are as follows.
+--preprocessing
+  --csv2t7b.lua
+    This script transforms a csv file into a t7b file which can be directly read by Crepe.
+    Usage: qlua csv2t7b.lua -input INPUT_FILE -output OUTPUT_FILE
+--train
+  --config.lua
+    This is the configuration file of the neural network, input data, and training scheme.
+  --main.lua
+    This script trains the model with the data and network structure configured in config.lua. It normally takes around 3 days to finish a model.
+    Usage: qlua main.lua
+--analyze_polarity
+  --extract_ft.lua
+    This script can extract hidden features from the trained network, which is used for extracting scores in this project.
+    Usage: qlua extract_ft.lua -resume RESUME_ITER -layer_id 23 -savename FILENAME_FOR_SAVE
+    We fix "layer_id" as 23 since it is the layer id of predicted scores in the network structure.
+  --t7b2hdf.lua
+    This script is used for transforming the t7b files into hdf5 files. Since we use Python to do result analysis, and Python cannot directly read t7b files which are saved by Crepe, we use this function to do the data transformation.
+    Usage: qlua t7b2hdf.lua -input INPUT_FILE -output OUTPUT_FILE
+  --roc.py
+    This file reads a hdf5 score file and produces results including ROC curve, accuracy, F1 score, etc.
+    Usage: python roc.py SCORE_FILENAME SAVE_FIGURE_NAME
